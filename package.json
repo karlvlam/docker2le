@@ -4,7 +4,8 @@
   "description": "",
   "main": "docker2le.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node docker2le.js"
   },
   "author": "Karl Lam <karl.v.lam@gmail.com>",
   "license": "MIT",
