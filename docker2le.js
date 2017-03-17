@@ -47,6 +47,7 @@ setInterval(function(){
     if (global.gc){
         global.gc();
         log("[GC] Done!");
+        return;
     }
     log("[GC] no GC, run with --expose-gc ?");
 
