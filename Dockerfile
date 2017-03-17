@@ -9,4 +9,4 @@ COPY package.json /opt/docker2le
 RUN npm install && npm cache clean
 COPY docker2le.js /opt/docker2le
 
-CMD [ "node", "/opt/docker2le/docker2le.js" ]
+CMD [ "node", "--expose-gc", "/opt/docker2le/docker2le.js" ]

@@ -42,6 +42,17 @@ try{
     console.log(err);
 }
 
+// run GC every hour
+setInterval(function(){
+    if (global.gc){
+        global.gc();
+        log("[GC] Done!");
+    }
+    log("[GC] no GC, run with --expose-gc ?");
+
+}, 3600000);
+
+
 
 
 /*
@@ -361,9 +372,6 @@ function listenDockerEvent(){
     })
 
 }
-
-
-
 
 
 
