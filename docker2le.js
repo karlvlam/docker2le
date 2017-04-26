@@ -263,12 +263,20 @@ function listenDockerLog(info){
         }
 
         container.modem.demuxStream(stream, logStream, logStream);
+
+        stream.on('error', function(err){
+            log('[ERROR] Container stream error! ' + logStream.info.id);
+            log(err);
+        });
+
         stream.on('end', function(){
-            log('Container "' + logStream.info.id +'" stopped!');
+            log('Container stream ended! "' + logStream.info.id );
             delete containerPool[logStream.info.id]; // remove socket object from the pool
             logStream.end('!stop!');
         });
+
         stream.on('close', function(){
+            log('Container stream closed! "' + logStream.info.id );
             log('Container "' + logStream.info.id +'" stopped!');
             delete containerPool[logStream.info.id];
             logStream.end('!stop!');
