@@ -1,4 +1,4 @@
-FROM node:7.7.2-alpine
+FROM node:7.9.0-alpine
 
 RUN mkdir -p /opt/docker2le
 WORKDIR /opt/docker2le
