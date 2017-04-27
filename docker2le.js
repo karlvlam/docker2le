@@ -117,17 +117,20 @@ function connectLE(){
     });
 
     // Just reconnect!!!
+    leSocket.on('error', function(){
+        log('Logentries connection error!');
+    });
+
+    leSocket.on('close', function(){
+        log('Logentries connection closed!');
+    });
+
     leSocket.on('end', function(){
-        log('Logentries connection closed! reconnect...');
+        log('Logentries connection ended! reconnect...');
         leSocket = null;
         connectLE
     });
 
-    leSocket.on('close', function(){
-        log('Logentries connection closed! reconnect...');
-        leSocket = null;
-        connectLE
-    });
 
 }
 
@@ -240,13 +243,24 @@ function listenDockerLog(info){
                 // fire the log!
                 le_write(logset.token, JSON.stringify(Object.assign(l, logset.labels)));
             }catch(err){
+                log('LOG_ERROR: ' + err);
             }
         }
     });
 
+    logStream.on('end', function(){
+        log('LogSteam ended! ' + logStream.info.id);
+    })
+    logStream.on('error', function(){
+        log('LogSteam error! ' + logStream.info.id);
+    })
+
+    logStream.on('close', function(){
+        log('LogSteam closed! ' + logStream.info.id);
+    })
 
     if (!info['since']){
-        info['since'] = Math.round(new Date().getTime()/1000); 
+        info['since'] = Math.floor(new Date().getTime()/1000) - 1; 
     }
 
     container.logs({
@@ -263,9 +277,10 @@ function listenDockerLog(info){
         }
 
         container.modem.demuxStream(stream, logStream, logStream);
+        log('Container log stream connected! ' + logStream.info.id);
 
         stream.on('error', function(err){
-            log('[ERROR] Container stream error! ' + logStream.info.id);
+            log('Container stream error! ' + logStream.info.id);
             log(err);
         });
 
