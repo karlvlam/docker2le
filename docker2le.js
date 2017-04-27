@@ -123,8 +123,6 @@ function connectLE(){
 
     leSocket.on('close', function(){
         log('Logentries connection closed!');
-        leSocket = null;
-        connectLE();
     });
 
     leSocket.on('end', function(){
